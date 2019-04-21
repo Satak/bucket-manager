@@ -1,0 +1,12 @@
+<ul>
+    {% for file in files %}
+    {% if '.mp4' in file.name[-4:] %}
+    <li>{{file.name}}</li>
+
+    <video width="600" controls>
+        <source src="https://storage.cloud.google.com/{{file._properties.bucket}}/{{file.name}}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    {% endif %}
+    {% endfor %}
+</ul>
