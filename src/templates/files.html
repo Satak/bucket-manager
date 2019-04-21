@@ -1,5 +1,17 @@
-<ul>
+<table class="highlight responsive-table">
+  <thead>
+    <tr>
+      <th>Link</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
     {% for file in files %}
-    <li>{{file.name}}</li>
+    <tr>
+      <td><a href="https://storage.cloud.google.com/{{file._properties.bucket}}/{{file.name}}">{{file.name}}</a></td>
+      <td><button onclick="deleteFile('{{file.name}}')" class="btn red"><i class="material-icons">delete_forever</i></button></td>
+    </tr>
     {% endfor %}
-</ul>
+  </tbody>
+</table>

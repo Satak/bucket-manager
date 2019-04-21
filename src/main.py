@@ -79,9 +79,11 @@ def upload():
     return redirect(url_for('index'))
 
 
-@app.route('/api/files/<string:file_name>', methods=['DELETE'])
-def api_delete_file(file_name):
+@app.route('/api/files', methods=['DELETE'])
+def api_delete_file():
+    file_name = request.args.get('fileName')
     delete_blob(BUCKET_NAME, file_name)
+    logging.info(f'File deleted: {file_name}')
     return jsonify({}), 204
 
 
