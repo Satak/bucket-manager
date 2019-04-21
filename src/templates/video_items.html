@@ -1,0 +1,9 @@
+<ul>
+    {% for video in videos %}
+    <li>{{video.name}}</li>
+    <video width="600" controls>
+        <source src="https://storage.cloud.google.com/{{video._properties.bucket}}/{{video.name}}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    {% endfor %}
+</ul>
