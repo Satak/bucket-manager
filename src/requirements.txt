@@ -1,4 +1,3 @@
 flask
 Flask-BasicAuth
-google-cloud-datastore
-gunicorn
+google-cloud-storage
