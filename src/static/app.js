@@ -1,3 +1,12 @@
+document.addEventListener('DOMContentLoaded', function() {
+  let elems1 = document.querySelectorAll('.collapsible');
+  let instances1 = M.Collapsible.init(elems1);
+  let elems2 = document.querySelectorAll('.sidenav');
+  let instances2 = M.Sidenav.init(elems2);
+  let elems3 = document.querySelectorAll('select');
+  let instances3 = M.FormSelect.init(elems3);
+})
+
 async function API(body, url, method) {
   const requestParams = {
     method: method,

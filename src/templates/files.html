@@ -1,4 +1,4 @@
-<table class="highlight responsive-table">
+<table class="highlight">
   <thead>
     <tr>
       <th>Link</th>
@@ -10,7 +10,7 @@
     {% for file in files %}
     <tr>
       <td><a href="https://storage.cloud.google.com/{{file._properties.bucket}}/{{file.name}}">{{file.name}}</a></td>
-      <td><button onclick="deleteFile('{{file.name}}')" class="btn red"><i class="material-icons">delete_forever</i></button></td>
+      <td><button onclick="deleteFile('{{file.name}}')" class="btn red small"><i class="material-icons">delete_forever</i></button></td>
     </tr>
     {% endfor %}
   </tbody>
