@@ -11,6 +11,7 @@
 <body>
     <div class="container">
     {% include 'navbar.html' %}
+    {% include 'flash.html' %}
     {% block content %}{% endblock %}
     </div>
     <script src="{{ url_for('static', filename='app.js') }}"></script>

@@ -1,6 +1,6 @@
 from os import getenv
 from google.cloud import storage
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
 from flask_basicauth import BasicAuth
 import logging
 
@@ -10,6 +10,7 @@ BUCKET_NAME = getenv('BUCKET_NAME')
 app.config['BASIC_AUTH_USERNAME'] = getenv('BASIC_AUTH_USERNAME')
 app.config['BASIC_AUTH_PASSWORD'] = getenv('BASIC_AUTH_PASSWORD')
 app.config['BASIC_AUTH_FORCE'] = True
+app.config['SECRET_KEY'] = 'secret'
 
 basic_auth = BasicAuth(app)
 
@@ -22,16 +23,16 @@ def get_properties(files):
 
 def delete_blob(bucket_name, blob_name):
     """Deletes a blob from the bucket."""
-    storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(blob_name)
     blob.delete()
-    logging.info(f'Blob {blob_name} deleted.')
+    msg = f'File {blob_name} deleted.'
+    logging.info(msg)
+    return msg
 
 
 def list_blobs_with_prefix(bucket_name, prefix, delimiter=None, file_type=''):
     """Lists all the blobs in the bucket that begin with the prefix."""
-    storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucket_name)
     blobs = bucket.list_blobs(prefix=prefix, delimiter=delimiter)
 
@@ -45,7 +46,9 @@ def upload_blob(bucket_name, source_file, destination_blob_name):
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
     blob.upload_from_file(source_file)
-    logging.info(f'File uploaded to {destination_blob_name}.')
+    msg = f'File uploaded to {destination_blob_name}.'
+    logging.info(msg)
+    return msg
 
 
 @app.route('/')
@@ -75,15 +78,16 @@ def upload_view():
 @app.route('/upload', methods=['POST'])
 def upload():
     file = request.files['file']
-    upload_blob(BUCKET_NAME, file, f'Videos/{file.filename}')
+    msg = upload_blob(BUCKET_NAME, file, f'Videos/{file.filename}')
+    flash(msg)
     return redirect(url_for('index'))
 
 
 @app.route('/api/files', methods=['DELETE'])
 def api_delete_file():
     file_name = request.args.get('fileName')
-    delete_blob(BUCKET_NAME, file_name)
-    logging.info(f'File deleted: {file_name}')
+    msg = delete_blob(BUCKET_NAME, file_name)
+    flash(msg)
     return jsonify({}), 204
 
 
