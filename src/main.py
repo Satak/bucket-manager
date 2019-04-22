@@ -10,7 +10,7 @@ BUCKET_NAME = getenv('BUCKET_NAME')
 app.config['BASIC_AUTH_USERNAME'] = getenv('BASIC_AUTH_USERNAME')
 app.config['BASIC_AUTH_PASSWORD'] = getenv('BASIC_AUTH_PASSWORD')
 app.config['BASIC_AUTH_FORCE'] = True
-app.config['SECRET_KEY'] = 'secret'
+app.config['SECRET_KEY'] = getenv('SECRET_KEY')
 
 basic_auth = BasicAuth(app)
 
